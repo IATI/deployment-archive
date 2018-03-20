@@ -7,8 +7,6 @@ user_home_dir: /home/{{ custom_user }}/
 
 repo_dir: preview-site/
 
-apache2_conf_file: apache2.conf
-
 django_dir: "{{ user_home_dir }}{{repo_dir}}{{ app_name }}/"
 
 virtualenv_path: "{{ user_home_dir }}{{ repo_dir }}pyenv"
@@ -20,3 +18,21 @@ db_password: !vault |
           61343863626362386162363764303433346130323030313964373738623734643538663531663338
           6531653861323965350a623830316435383731646433326563393338363339346437353131393634
           6435
+          
+apache2_ip: '*'
+
+apache2_port: 80
+
+apache2_documentroot: /var/www/html
+
+apache2_directories:
+  - alias_source: /static
+    alias_destination: /home/iati-website/preview-site/iati/staticfiles
+    root: /home/iati-website/preview-site/iati/staticfiles
+  - root: /home/iati-website/preview-site/iati/iati
+    file_location: wsgi.py
+    
+apache2_extras:
+  - line: WSGIDaemonProcess iati python-path=/home/iati-website/preview-site/iati python-home=/home/iati-website/preview-site/pyenv
+  - line: WSGIProcessGroup iati
+  - line: WSGIScriptAlias / /home/iati-website/preview-site/iati/iati/wsgi.py

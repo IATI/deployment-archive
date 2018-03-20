@@ -1,0 +1,34 @@
+<VirtualHost {{ apache2_ip }}:{{ apache2_port }}>
+  ServerAdmin webmaster@localhost
+  
+  {% if apache2_documentroot is defined %}
+  DocumentRoot {{ apache2_documentroot }}
+  {% endif %}
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+  {% for directory in apache2_directories %}
+    {% if directory.alias_source is defined %}
+  Alias {{ directory.alias_source }} {{ directory.alias_destination }}
+    {% endif %}
+  <Directory {{ directory.root }}>
+    {% if directory.file_location is defined %}
+    <Files {{ directory.file_location }}>
+      Require all granted
+    </Files>
+    {% else %}
+    {% if directory.options is defined %}
+      {% for option in directory.options %}
+    {{ option.line }}
+      {% endfor %}
+    {% endif %}
+    Require all granted
+    {% endif %}
+  </Directory>
+  {% endfor %}
+
+  {% for apache2_extra in apache2_extras %}
+  {{ apache2_extra.line }}
+  {% endfor %}
+</VirtualHost>

@@ -8,12 +8,11 @@
     state: present
   with_items:
     - "{{ apache2_modules }}"
-
-- name: Copy apache2 config file to sites-available
-  copy:
-    remote_src: no
-    src: "{{ apache2_conf_template }}"
-    dest: "{{ apache2_conf_destination }}"
-    owner: root
-    group: root
-    mode: 0644
+        
+- name: Write apache2 config files from Jinja template
+  template: 
+     src: apache2.conf.j2 
+     dest: "{{ apache2_conf_destination }}"
+     mode: 0644
+     owner: root
+     group: root
