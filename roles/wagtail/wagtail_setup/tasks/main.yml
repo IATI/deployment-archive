@@ -14,8 +14,6 @@
 
 # Setup database user with correct privileges and password
 - include_tasks: django_postgres_setup.yml
-  become: true
-  become_user: postgres
 
 # Run migrate on the database and make sure directories necessary for static content and media exist
 - include_tasks: django_setup.yml
@@ -33,16 +31,16 @@
     env: yes
     user: "{{ db_user }}"
     value: /usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-    
+
 # Create the cron job that regularly backs up the postgres database
 # See the README for further information on how this works
 - include_role:
     name: common/postgres/postgres_backup_cron
-    
+
 # The role that installs S3 and creates a default object storage bucket
 - include_role:
     name: common/s3
-    
+
 # The role that writes the postgres_recover_backup.sh from template. See README for more details.
 - include_role:
     name: common/postgres/postgres_setup_recovery

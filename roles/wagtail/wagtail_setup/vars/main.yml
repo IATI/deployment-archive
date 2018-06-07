@@ -1,7 +1,7 @@
 ---
 git_clone_address: https://github.com/IATI/preview-website.git
 
-git_clone_branch: setup-wagtail
+git_clone_branch: alpha-deployment
 
 user_home_dir: /home/{{ custom_user }}/
 
@@ -37,14 +37,14 @@ apache2_directories:
   - root: /home/iati-website/preview-site/iati/iati
     file_location: wsgi.py
   - root: /home/iati-website/preview-site/iati/iati/templates/
-    file_location: 500.html
+    file_location: 500-static.html
     alias_source: /500
-    alias_destination: /home/iati-website/preview-site/iati/iati/templates/500.html
+    alias_destination: /home/iati-website/preview-site/iati/iati/templates/500-static.html
   - root: /home/iati-website/preview-site/iati/iati/templates/
-    file_location: 404.html
+    file_location: 404-static.html
     alias_source: /404
-    alias_destination: /home/iati-website/preview-site/iati/iati/templates/404.html
-    
+    alias_destination: /home/iati-website/preview-site/iati/iati/templates/404-static.html
+
 apache2_errordocs:
   - error_code: 403
     error_template: /404

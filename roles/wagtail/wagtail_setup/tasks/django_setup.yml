@@ -1,7 +1,13 @@
 ---
-- name: Run migrate to update the database based on the app models
+- name: Run makemigrations_translation to create any new migrations since last update
   django_manage:
-    command: migrate
+    command: makemigrations_translation
+    app_path: "{{ django_dir }}"
+    virtualenv: "{{ virtualenv_path }}"
+
+- name: Run migrate_translation to update the database based on the app models
+  django_manage:
+    command: migrate_translation --noinput
     app_path: "{{ django_dir }}"
     virtualenv: "{{ virtualenv_path }}"
 
@@ -18,7 +24,7 @@
     owner: "{{ custom_user }}"
     group: www-data
     mode: 0774
-    
+
 - name: Create the images subdirectory if one does not exist
   file:
     path: "{{ django_dir }}media/images"
@@ -26,7 +32,7 @@
     owner: "{{ custom_user }}"
     group: www-data
     mode: 0774
-    
+
 - name: Create the original_images subdirectory if one does not exist
   file:
     path: "{{ django_dir }}media/original_images"
