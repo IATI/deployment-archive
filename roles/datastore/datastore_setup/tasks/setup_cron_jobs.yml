@@ -1,17 +1,20 @@
 ---
-# iati queue background requires this to run
+# iati queue background (worker) requires this environment variable to run
+# This allows cron to use the executable path of the custom user
 - cron:
     name: PATH
     env: yes
     value: /usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-- cron:
+- name: Start the iati crawler
+  cron:
     name: "Update source data with crawler"
     job: "iati crawl update"
     minute: "30"
     hour: "0-23/5"
 
-- cron:
+- name: Start the iati queue background worker
+  cron:
     name: "Start worker to download and index datafiles"
     special_time: reboot
     job: "sleep 2m; iati queue background"

@@ -1,0 +1,16 @@
+#!/bin/bash
+# Change directory to the temporary location
+cd {{ backup_temporary_location }}
+
+# Dump the postgres database
+# Encrypt the dump with openssl
+su {{custom_user}} -c 'pg_dump {{ custom_database_name }} | openssl enc -aes-256-cbc -pass pass:{{ backup_encryption_key }} -p -out {{ backup_directory }}backup.sql -base64'
+
+# Copy media folder from django_dir to the same location where our pg_dump outfile is located
+cp -r {{ django_dir }}media {{ backup_directory }}
+
+# Compress the backup directory with gzip
+tar -czf backup.tar.gzip {{ backup_directory }}
+
+# Write the file to a timestamped location via the s3 object storage service
+s3cmd -c /home/{{ custom_user }}/.s3cfg --no-progress put backup.tar.gzip s3://{{ s3_bucket_name }}/$(date +\%Y-\%m-\%d).tar.gz

@@ -1,0 +1,4 @@
+---
+# Apt-get install the default packages required for all new or improved IATI products
+- include_role:
+    name: common/install_dependencies

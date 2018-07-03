@@ -1,22 +1,23 @@
 ---
+# Apt-get install postgresql
 - include_role:
     name: common/install_dependencies
 
-# this is a specific PostgreSQL adapter for Python
+# This is a specific PostgreSQL adapter for Python
 - name: Install psycopg2
   pip:
     name: psycopg2
     version: 2.7.3.2
     state: present
 
-# the postgres user appears to work out of the box and does not require manual creation
+# The postgres user appears to work out of the box and does not require manual creation
 - name: Create postgres role for custom user
   become: true
   become_user: postgres
   postgresql_user:
     name: "{{ db_user }}"
 
-- name: Create postgres custom database
+- name: Create a postgres database with the name specified by the custom_database_name variable
   become: true
   become_user: postgres
   postgresql_db:

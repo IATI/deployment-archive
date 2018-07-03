@@ -1,0 +1,6 @@
+---
+# Configure SSH keys for all hosts
+- hosts: all
+  remote_user: root
+  roles:
+     - common/configure_ssh_keys

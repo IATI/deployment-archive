@@ -1,7 +1,8 @@
 ---
 # python-minimal can't be installed with apt_module as it requires python2 to run
-- name: Install python 2
+- name: Check for Python2 and install if it isn't present already
   raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
 
+# Install pip2 for python2
 - include_role:
     name: common/install_dependencies

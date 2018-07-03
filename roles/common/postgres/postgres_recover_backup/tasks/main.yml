@@ -1,0 +1,13 @@
+---
+- name: stop apache
+  service:
+    name: apache2
+    state: stopped
+
+- name: Run the recovery script
+  command: /usr/local/bin/postgres_recover_backup.sh
+
+- name: start apache
+  service:
+    name: apache2
+    state: started

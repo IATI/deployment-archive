@@ -1,0 +1,8 @@
+---
+# Copy the local.py settings file into the settings module on the remote server
+# Contents are encrypted to protect secure contents
+- copy:
+    src: local_encrypted.py
+    dest: "{{ django_dir }}iati/settings/local.py"
+    owner: "{{ custom_user }}"
+    mode: 0444

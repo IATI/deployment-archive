@@ -15,6 +15,30 @@ repo_dir: IATI-Datastore/
 
 wsgi_file_name: datastore.wsgi
 
-apache2_conf_file: apache2.conf
-
 apache2_mod_wsgi_version: libapache2-mod-wsgi
+
+apache2_ip: '*'
+
+apache2_port: 80
+
+apache2_directories:
+  - root: /
+    options:
+    - line: Options FollowSymLinks
+
+apache2_extras:
+  - line: LogLevel info
+  - line: WSGIDaemonProcess datastore user=datastore group=datastore processes=1 threads=15
+  - line: WSGIProcessGroup datastore
+  - line: WSGIScriptAlias / /home/datastore/datastore.wsgi
+  - line: Header set Access-Control-Allow-Origin "*"
+  
+backup_directory: "/tmp/uncompressed_backup/"
+
+backup_temporary_location: "/tmp/"
+
+backup_minute: 0
+
+backup_hour: 0
+
+backup_weekday: 0

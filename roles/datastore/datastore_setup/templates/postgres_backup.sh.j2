@@ -1,0 +1,5 @@
+# Dump the postgres database
+pg_dump {{ custom_database_name }} > {{ backup_directory }}backup.sql
+
+# Compress the backup directory with gzip
+tar -czf backup.tar.gzip {{ backup_directory }}

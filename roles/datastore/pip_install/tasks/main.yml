@@ -1,4 +1,5 @@
 ---
+# This role is required as the Datastore does not currently use a virtualenv
 - name: Install requirements via pip
   pip:
     chdir: "{{ user_home_dir }}{{ repo_dir }}"

@@ -1,5 +1,7 @@
 ---
+# Override the default Python interpreter for Ansible to be Python2
 ansible_python_interpreter: /usr/bin/python
 
+# Make sure pip2 is installed with Python2
 required_packages:
   - python-pip

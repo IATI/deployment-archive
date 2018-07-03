@@ -1,5 +1,5 @@
 ---
-- name: Create a custom user
+- name: Create a custom user on the server other than root
   user:
     name: "{{ custom_user }}"
     comment: "{{ custom_user }} account"
