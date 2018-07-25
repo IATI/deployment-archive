@@ -1,0 +1,15 @@
+---
+- name: check openssl version
+  shell: "openssl version"
+  ignore_errors: yes
+  register: openssl_version_query
+  tags: openssl
+
+- script: ssl_install.sh
+  when: openssl_version_query.stdout.find('1.1.0h') == -1
+  tags: openssl
+
+- name: Install openssl development package
+  apt:
+    name: libssl-dev
+    state: present

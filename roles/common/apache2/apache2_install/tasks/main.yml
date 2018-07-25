@@ -1,0 +1,20 @@
+---
+# Apt-get install apache2 and mod-wsgi
+- include_role:
+    name: common/install_dependencies
+
+# Enable mod-headers and mod-rewrite
+- name: Enable apache2 modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ apache2_modules }}"
+
+- name: Write apache2 config files from Jinja template
+  template:
+     src: apache2.conf.j2
+     dest: "{{ apache2_conf_destination }}"
+     mode: 0644
+     owner: root
+     group: root

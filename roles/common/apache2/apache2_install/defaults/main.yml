@@ -1,0 +1,3 @@
+---
+# This variable is extracted so that it may be overidden if necessary by other roles that may require Python2
+apache2_mod_wsgi_version: libapache2-mod-wsgi-py3

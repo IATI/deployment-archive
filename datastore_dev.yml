@@ -3,8 +3,8 @@
   remote_user: root
   gather_facts: no
   roles:
-    - common/python2
-    - common/postgres
+    - common/python2 # install python2 as the default version of python
+    - common/postgres/postgres_install
     - common/create_user
     - datastore/datastore_setup
 

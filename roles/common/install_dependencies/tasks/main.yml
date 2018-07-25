@@ -1,4 +1,5 @@
 ---
+# Loop through list of packages in required_packages variable and install with apt-get
 - name: Install dependencies
   apt:
     name: "{{ item }}"

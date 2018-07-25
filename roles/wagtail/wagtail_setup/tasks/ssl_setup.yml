@@ -1,0 +1,41 @@
+---
+- include_role:
+    name: common/openssl_install
+
+- name: Install pyOpenSSL
+  pip:
+    name: pyOpenSSL
+
+- name: Make ssl cert directory
+  file:
+    path: "{{ ssl_cert_dir }}"
+    state: directory
+    mode: 700
+
+- name: Make ssl sign directory
+  file:
+    path: "{{ ssl_sign_dir }}"
+    state: directory
+    mode: 700
+
+- name: Generate an OpenSSL RSA Key
+  openssl_privatekey:
+    path: "{{ ssl_key_path }}"
+
+- name: Generate a certificate signing request
+  openssl_csr:
+    path: "{{ ssl_sign_request_path }}"
+    privatekey_path: "{{ ssl_key_path }}"
+    common_name: www.iatistandard.org
+
+- name: Generate a self signed OpenSSL certificate
+  openssl_certificate:
+    path: "{{ ssl_cert_path }}"
+    privatekey_path: "{{ ssl_key_path }}"
+    csr_path: "{{ ssl_sign_request_path }}"
+    provider: selfsigned
+
+- name: Enable SSL in Apache2
+  apache2_module:
+    state: present
+    name: ssl

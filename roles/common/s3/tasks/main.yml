@@ -1,0 +1,16 @@
+---
+# Note: This is only required because version 2.x is compatible with python3 and is not available via apt
+# Be sure to remove this and just install it via install_dependencies when it becomes available
+- name: Install latest version of s3cmd
+  pip:
+    name: "s3cmd"
+    version: 2.0.1
+
+- name: Create s3 config file from template
+  template:
+     src: s3cfg.j2
+     dest: "/root/.s3cfg"
+     mode: 0644
+
+- name: Test connection to custom bucket
+  command: "s3cmd --configure s3://{{ s3_bucket_name }}"

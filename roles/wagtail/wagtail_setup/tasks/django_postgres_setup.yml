@@ -1,0 +1,17 @@
+---
+- name: Grant all database privileges to the specified user
+  postgresql_privs:
+    db: "{{ custom_database_name }}"
+    privs: ALL
+    type: database
+    roles: "{{ db_user }}"
+  become: true
+  become_user: postgres
+
+- name: Update database user with database password
+  postgresql_user:
+    name: "{{ db_user }}"
+    db: "{{ custom_database_name }}"
+    password: "{{ db_password }}"
+  become: true
+  become_user: postgres

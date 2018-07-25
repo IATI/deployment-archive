@@ -1,0 +1,40 @@
+#!/bin/bash
+# Change directory to temporary backup
+cd {{ backup_temporary_location }}
+
+# List files from the s3 storage bucket and store the line containing the name and location of the most recent upload in the FILELINE variable
+FILELINE="$(s3cmd ls s3://{{ s3_bucket_name }} | tail -1)"
+
+# Use cut to extract the bucket file path for the most recently uploaded file
+FILEPATH="$(cut -d' ' -f4 <<< $FILELINE)"
+
+# Use cut again to extract just the filename from the s3 path for the most recently uploaded file
+FILENAME="$(cut -d'/' -f4 <<< $FILEPATH)"
+
+# Download the recovery tar file from s3 storage bucket
+s3cmd -c /root/.s3cfg --no-progress get $FILEPATH
+
+# Unzip the downloaded file
+tar -xzf $FILENAME
+
+# Delete the original file
+rm $FILENAME
+
+# Drop and recreate the database with owner db_user
+su postgres -c 'psql -U postgres -d postgres -c '"'"'DROP DATABASE "{{ custom_database_name }}";'"'"
+su postgres -c 'psql -U postgres -d postgres -c '"'"'CREATE DATABASE "{{ custom_database_name }}" WITH OWNER "{{ db_user }}";'"'"
+
+# Chown the backup with custom_user so it can be read
+chown {{ custom_user }}:{{ custom_user }} {{ backup_directory }}backup.sql
+
+# Decrypt the pg_dump backup and load it into postgres
+su {{ custom_user }} -c 'openssl enc -d -aes-256-cbc -pass pass:{{ backup_encryption_key }} -p -in {{ backup_directory }}backup.sql -base64 | psql -d {{ custom_database_name }}'
+
+# Remove the original media folder
+rm -rf {{ django_dir }}media
+
+# Move the media folder from the backup directory back to its proper place
+cp -r {{ backup_directory }}media {{ django_dir }}
+
+# Let www-data group re-own the media folder recursively
+chown -R www-data:www-data {{ django_dir }}media

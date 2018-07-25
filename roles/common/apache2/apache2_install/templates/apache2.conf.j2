@@ -1,0 +1,64 @@
+<VirtualHost {{ apache2_ip }}:{{ apache2_port }}>
+  ServerAdmin webmaster@localhost
+
+  {% if apache2_ssl_cert_files is defined %}
+  SSLEngine on
+    {% for file in apache2_ssl_cert_files %}
+      {{ file.type }} {{file.path}}
+    {% endfor %}
+  {% endif %}
+
+  {% if apache2_documentroot is defined %}
+  DocumentRoot {{ apache2_documentroot }}
+  {% endif %}
+
+  {% if apache2_errordocs is defined %}
+    {% for doc in apache2_errordocs %}
+      ErrorDocument {{ doc.error_code }} {{ doc.error_template }}
+    {% endfor %}
+  {% endif %}
+
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+  # Loops through each directory object in the apache2_directories list
+  # For every directory object, write Alias if it is defined
+  # Likewise, if file_location is specified a nested <Files> tag is included inside of the directory
+  # Options for the directory are also included prior to the "Require all granted" line
+  {% for directory in apache2_directories %}
+    {% if directory.alias_source is defined %}
+  Alias {{ directory.alias_source }} {{ directory.alias_destination }}
+    {% endif %}
+  <Directory {{ directory.root }}>
+    {% if directory.file_location is defined %}
+    <Files {{ directory.file_location }}>
+      Require all granted
+    </Files>
+    {% else %}
+    {% if directory.options is defined %}
+      {% for option in directory.options %}
+    {{ option.line }}
+      {% endfor %}
+    {% endif %}
+    Require all granted
+    {% endif %}
+  </Directory>
+  {% endfor %}
+
+  # For all additional configuration lines in the Apache2 config
+  # E.g. WSGI processes, log levels, Access-Control-Allow-Origin
+  {% for apache2_extra in apache2_extras %}
+  {{ apache2_extra.line }}
+  {% endfor %}
+</VirtualHost>
+
+{% if apache2_additional_vhosts %}
+  {% for additional_vhost in apache2_additional_vhosts %}
+  <VirtualHost {{ additional_vhost.ip }}:{{ additional_vhost.port }}>
+    {% for content in additional_vhost.contents %}
+    {{ content.line }}
+    {% endfor %}
+  </VirtualHost>
+  {% endfor %}
+{% endif %}

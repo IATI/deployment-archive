@@ -1,0 +1,73 @@
+---
+- name: Run makemigrations to create any new migrations since last update
+  django_manage:
+    command: makemigrations
+    app_path: "{{ django_dir }}"
+    virtualenv: "{{ virtualenv_path }}"
+
+- name: Run migrate to update the database based on the app models
+  django_manage:
+    command: migrate --noinput
+    app_path: "{{ django_dir }}"
+    virtualenv: "{{ virtualenv_path }}"
+
+- name: Gather all static files and place in single directory
+  django_manage:
+    command: collectstatic
+    app_path: "{{ django_dir }}"
+    virtualenv: "{{ virtualenv_path }}"
+
+- name: Create default pages
+  django_manage:
+    command: createdefaultpages
+    app_path: "{{ django_dir }}"
+    virtualenv: "{{ virtualenv_path }}"
+
+- name: Create a media directory if one does not exist
+  file:
+    path: "{{ django_dir }}media"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0774
+
+- name: Create the images subdirectory if one does not exist
+  file:
+    path: "{{ django_dir }}media/images"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0774
+
+- name: Create the original_images subdirectory if one does not exist
+  file:
+    path: "{{ django_dir }}media/original_images"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0774
+
+- name: Create the documents subdirectory if one does not exist
+  file:
+    path: "{{ django_dir }}media/documents"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0774
+
+- name: Create periodic update schell script from template
+  template:
+     src: periodic_updates.sh.j2
+     dest: "/usr/local/bin/periodic_updates.sh"
+     mode: 0775
+     owner: "{{ custom_user }}"
+     group: "{{ custom_user }}"
+
+- name: Set the periodic update shell script to run as a cronjob
+  cron:
+    user: "{{ custom_user }}"
+    name: "Periodic django update"
+    minute: "{{ update_minute }}"
+    hour: "{{ update_hour }}"
+    weekday: "{{ update_weekday }}"
+    job: "/usr/local/bin/periodic_updates.sh"

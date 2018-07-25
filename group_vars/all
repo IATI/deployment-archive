@@ -1,2 +1,3 @@
 ---
+# Set the default Python interpreter for Ansible to Python3
 ansible_python_interpreter: /usr/bin/python3

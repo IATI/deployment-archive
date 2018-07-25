@@ -1,0 +1,8 @@
+---
+- name: Create the recover backup shell script from template
+  template: 
+     src: postgres_recover_backup.sh.j2 
+     dest: "/usr/local/bin/postgres_recover_backup.sh"
+     mode: 0775
+     owner: "{{ db_user }}"
+     group: "{{ db_user }}"
