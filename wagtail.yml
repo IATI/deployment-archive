@@ -1,5 +1,5 @@
 ---
-- hosts: iati-website-production
+- hosts: iati-website-dev
   remote_user: root
   roles:
     - common/install_default_packages

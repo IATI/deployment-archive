@@ -1,0 +1,36 @@
+---
+- name: Cron job to go through all the steps to update dashboard (31 days)
+  cron:
+    name: "Dashboard update (31 days)"
+
+    day: 1-28/3 
+
+    month: 1,3,5,7,8,10,12
+
+    hour: 0
+
+    minute: 00
+
+    state: present
+
+    user: "{{ custom_user }}"
+
+    job: "{{user_home_dir}}full-dashboard-run.sh"
+
+- name: Cron job to go through all the steps to update dashboard (30 days)
+  cron:
+    name: "Dashboard update (30 days)"
+
+    day: 1-26/3 
+
+    month: 2,4,6,9,11
+
+    hour: 0
+
+    minute: 00
+
+    state: present
+
+    user: "{{ custom_user }}"
+
+    job: "{{user_home_dir}}full-dashboard-run.sh"

@@ -1,0 +1,20 @@
+---
+git_clone_address: https://github.com/IATI/IATI-Stats.git
+
+git_clone_branch: master
+
+user_home_dir: /home/{{ custom_user }}/
+
+repo_dir: IATI-Stats/
+
+requirements_path: "{{user_home_dir}}{{repo_dir}}"
+
+requirements_file: requirements.txt
+
+changed_directory: "{{ requirements_path }}"
+
+virtualenv_path: "{{ user_home_dir }}{{ repo_dir }}pyenv"
+
+link_source: "{{ user_home_dir }}IATI-Registry-Refresher/data"
+
+link_destination: "{{user_home_dir}}{{ repo_dir }}data"

@@ -1,0 +1,7 @@
+- name: Grant permissions to custom_user
+  file:
+    path: "{{ changed_directory }}"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    recurse: yes
+    mode: 0755

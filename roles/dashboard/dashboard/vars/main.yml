@@ -1,0 +1,16 @@
+---
+git_clone_address: https://github.com/IATI/IATI-Dashboard.git
+
+git_clone_branch: master
+
+user_home_dir: /home/{{ custom_user }}/
+
+repo_dir: IATI-Dashboard/
+
+requirements_path: "{{user_home_dir}}{{repo_dir}}"
+
+requirements_file: requirements.txt
+
+virtualenv_path: "{{ user_home_dir }}{{ repo_dir }}pyenv"
+
+changed_directory: "{{ requirements_path }}"

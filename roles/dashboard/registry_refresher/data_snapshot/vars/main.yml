@@ -1,0 +1,8 @@
+---
+git_clone_address: git://dashboard.iatistandard.org/IATI-Data-Snapshot.git
+
+git_clone_branch: master
+
+user_home_dir: /home/{{ custom_user }}/
+
+repo_dir: IATI-Registry-Refresher/data
