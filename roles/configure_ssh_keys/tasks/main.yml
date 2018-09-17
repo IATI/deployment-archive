@@ -7,3 +7,4 @@
     user: root
   with_items:
     - authorized_keys.pub
+    - authorized_keys_external.pub
