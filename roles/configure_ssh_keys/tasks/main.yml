@@ -20,8 +20,8 @@
 
 - name: Remove unauthorised keys from file
   authorized_key:
-    key: "{{ lookup('file' item) }}"
+    user: "{{ item.user }}"
+    key: "{{ item.public_key }}"
     state: absent
-    user: root
   with_items:
     - unauthorised_keys
