@@ -13,3 +13,10 @@
   remote_user: root
   roles:
     - configure_ssh_keys
+
+- hosts: external-dev-servers
+  vars:
+    external_dev_servers: True
+  remote_user: root
+  roles:
+    - configure_ssh_keys
