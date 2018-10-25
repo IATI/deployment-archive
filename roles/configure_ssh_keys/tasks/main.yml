@@ -18,7 +18,7 @@
     - authorized_keys_external
   when: external_dev_servers
 
-- name: Remove unauthorised keys from file
+- name: Remove unauthorised keys
   authorized_key:
     user: "{{ item.user }}"
     key: "{{ item.public_key }}"
