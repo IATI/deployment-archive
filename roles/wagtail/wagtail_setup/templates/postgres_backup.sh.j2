@@ -13,4 +13,4 @@ cp -r {{ django_dir }}media {{ backup_directory }}
 tar -czf backup.tar.gzip {{ backup_directory }}
 
 # Write the file to a timestamped location via the s3 object storage service
-s3cmd -c /home/{{ custom_user }}/.s3cfg --no-progress put backup.tar.gzip s3://{{ s3_bucket_name }}/$(date +\%Y-\%m-\%d).tar.gz
+s3cmd -c /root/.s3cfg --no-progress put backup.tar.gzip s3://{{ s3_bucket_name }}/$(date +\%Y-\%m-\%d).tar.gz

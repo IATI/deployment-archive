@@ -1,0 +1,4 @@
+---
+- include_tasks: dashboard_setup.yml
+
+- include_tasks: dashboard_run.yml

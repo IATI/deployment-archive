@@ -1,11 +1,11 @@
 ---
-git_clone_address: https://github.com/IATI/preview-website.git
+git_clone_address: https://github.com/IATI/IATI-Standard-Website.git
 
 git_clone_branch: master
 
 user_home_dir: /home/{{ custom_user }}/
 
-repo_dir: preview-site/
+repo_dir: src/
 
 django_dir: "{{ user_home_dir }}{{repo_dir}}{{ app_name }}/"
 
@@ -49,21 +49,21 @@ apache2_documentroot: /var/www/html/
 
 apache2_directories:
   - alias_source: /static
-    alias_destination: /home/iati-website/preview-site/iati/staticfiles
-    root: /home/iati-website/preview-site/iati/staticfiles
+    alias_destination: /home/iati-website/src/iati/staticfiles
+    root: /home/iati-website/src/iati/staticfiles
   - alias_source: /media
-    alias_destination: /home/iati-website/preview-site/iati/media
-    root: /home/iati-website/preview-site/iati/media
-  - root: /home/iati-website/preview-site/iati/iati
+    alias_destination: /home/iati-website/src/iati/media
+    root: /home/iati-website/src/iati/media
+  - root: /home/iati-website/src/iati/iati
     file_location: wsgi.py
-  - root: /home/iati-website/preview-site/iati/iati/templates/
+  - root: /home/iati-website/src/iati/iati/templates/
     file_location: 500-static.html
     alias_source: /500
-    alias_destination: /home/iati-website/preview-site/iati/iati/templates/500-static.html
-  - root: /home/iati-website/preview-site/iati/iati/templates/
+    alias_destination: /home/iati-website/src/iati/iati/templates/500-static.html
+  - root: /home/iati-website/src/iati/iati/templates/
     file_location: 404-static.html
     alias_source: /404
-    alias_destination: /home/iati-website/preview-site/iati/iati/templates/404-static.html
+    alias_destination: /home/iati-website/src/iati/iati/templates/404-static.html
 
 apache2_errordocs:
   - error_code: 403
@@ -74,9 +74,9 @@ apache2_errordocs:
     error_template: /500
 
 apache2_extras:
-  - line: WSGIDaemonProcess iati python-path=/home/iati-website/preview-site/iati python-home=/home/iati-website/preview-site/pyenv
+  - line: WSGIDaemonProcess iati python-path=/home/iati-website/src/iati python-home=/home/iati-website/src/pyenv
   - line: WSGIProcessGroup iati
-  - line: WSGIScriptAlias / /home/iati-website/preview-site/iati/iati/wsgi.py
+  - line: WSGIScriptAlias / /home/iati-website/src/iati/iati/wsgi.py
 
 apache2_additional_vhosts:
   - ip: '*'
@@ -129,6 +129,4 @@ s3_bucket_region: "ca-central-1"
 
 update_minute: 0
 
-update_hour: 0
-
-update_weekday: "*"
+update_hour: "*"

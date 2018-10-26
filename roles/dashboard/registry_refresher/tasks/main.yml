@@ -1,0 +1,20 @@
+---
+- include_role:
+    name: common/install_dependencies
+
+- include_role:
+    name: common/clone_repo
+  become: true
+  become_user: "{{ custom_user }}"
+
+- include_role:
+    name: common/change_ownership
+
+- name: Create initial empty directories for RR
+  file:
+    path: "{{ user_home_dir }}{{ repo_dir }}{{ item }}"
+    state: directory
+  with_items:
+    - urls
+    - data
+    - ckan

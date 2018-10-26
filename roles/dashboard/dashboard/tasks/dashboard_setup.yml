@@ -1,0 +1,56 @@
+---
+- include_role:
+    name: common/clone_repo
+  become: true
+  become_user: "{{ custom_user }}"
+
+- include_role:
+    name: common/pip_install
+
+- include_role:
+    name: common/change_ownership
+
+- include_role:
+    name: common/symlink
+  vars:
+    link_source: "{{ user_home_dir }}IATI-Stats/gitout"
+    link_destination: "{{ user_home_dir }}{{repo_dir}}stats-calculated"
+
+- include_role:
+    name: common/symlink
+  vars:
+    link_source: "{{ user_home_dir }}IATI-Stats/stats-blacklist"
+    link_destination: "{{ user_home_dir }}{{repo_dir}}stats-blacklist"
+
+- name: Run easy_install
+  command: easy_install -U distribute
+
+# - name: Setup config file
+#   # config.py file, set username and password
+- name: Create logs directory
+  file:
+    path: "{{ user_home_dir }}logs/"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    state: directory
+    mode: 0755
+
+- name: Copy full-dashboard-run.sh
+  copy:
+    src: full-dashboard-run.sh
+    dest: "{{user_home_dir}}"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0755
+
+- name: Grant permissions to dashboard username
+  file:
+    path: "{{ item }}"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    recurse: yes
+    mode: 0755
+  with_items:
+    - "{{ user_home_dir }}IATI-Dashboard"
+    - "{{ user_home_dir }}IATI-Stats"
+    - "{{ user_home_dir }}IATI-Registry-Refresher"

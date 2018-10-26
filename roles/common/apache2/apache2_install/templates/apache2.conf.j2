@@ -22,13 +22,25 @@
   ErrorLog ${APACHE_LOG_DIR}/error.log
   CustomLog ${APACHE_LOG_DIR}/access.log combined
 
+  {% if apache2_alias is defined %}
+    {% for alias in apache2_alias %}
+  Alias {{ alias.line }}
+    {% endfor %}
+  {% endif %}
+
+  {% if apache2_dir_index is defined %}
+    {% for index in apache2_dir_index %}
+  DirectoryIndex {{ index.line }}
+    {% endfor %}
+  {% endif %}
+
   # Loops through each directory object in the apache2_directories list
   # For every directory object, write Alias if it is defined
   # Likewise, if file_location is specified a nested <Files> tag is included inside of the directory
   # Options for the directory are also included prior to the "Require all granted" line
   {% for directory in apache2_directories %}
     {% if directory.alias_source is defined %}
-  Alias {{ directory.alias_source }} {{ directory.alias_destination }}
+      Alias {{ directory.alias_source }} {{ directory.alias_destination }}
     {% endif %}
   <Directory {{ directory.root }}>
     {% if directory.file_location is defined %}
@@ -36,24 +48,26 @@
       Require all granted
     </Files>
     {% else %}
-    {% if directory.options is defined %}
-      {% for option in directory.options %}
-    {{ option.line }}
-      {% endfor %}
+      {% if directory.options is defined %}
+        {% for option in directory.options %}
+      {{ option.line }}
+        {% endfor %}
+      {% endif %}
+      Require all granted
     {% endif %}
-    Require all granted
-    {% endif %}
-  </Directory>
+    </Directory>
   {% endfor %}
 
   # For all additional configuration lines in the Apache2 config
   # E.g. WSGI processes, log levels, Access-Control-Allow-Origin
-  {% for apache2_extra in apache2_extras %}
-  {{ apache2_extra.line }}
-  {% endfor %}
+  {% if apache2_extra is defined %}
+    {% for apache2_extra in apache2_extras %}
+    {{ apache2_extra.line }}
+    {% endfor %}
+  {% endif %}
 </VirtualHost>
 
-{% if apache2_additional_vhosts %}
+{% if apache2_additional_vhosts is defined %}
   {% for additional_vhost in apache2_additional_vhosts %}
   <VirtualHost {{ additional_vhost.ip }}:{{ additional_vhost.port }}>
     {% for content in additional_vhost.contents %}

@@ -25,3 +25,4 @@
     state: absent
   with_items:
     - unauthorised_keys
+

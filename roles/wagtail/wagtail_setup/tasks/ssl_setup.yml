@@ -34,8 +34,3 @@
     privatekey_path: "{{ ssl_key_path }}"
     csr_path: "{{ ssl_sign_request_path }}"
     provider: selfsigned
-
-- name: Enable SSL in Apache2
-  apache2_module:
-    state: present
-    name: ssl

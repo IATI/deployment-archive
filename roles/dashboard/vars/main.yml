@@ -1,0 +1,25 @@
+---
+apache2_ip: '*'
+
+apache2_port: 80
+
+apache2_documentroot: /home/dashboard/IATI-Dashboard/web
+
+apache2_alias:
+  - line: /stats /home/dashboard/IATI-Stats/gitout
+  - line: /stats-blacklist /home/dashboard/IATI-Stats/stats-blacklist
+  - line: /zips /home/dashboard/IATI-Registry-Refresher/zips
+
+apache2_dir_index: 
+  - line: index.html
+
+apache2_directories:
+  - root: /home/dashboard/IATI-Registry-Refresher/zips/
+    options:
+    - line: Options Indexes FollowSymLinks 
+  - root: /home/dashboard/IATI-Dashboard/web/
+    options:
+    - line: Options Indexes FollowSymLinks 
+  - root: /home/dashboard/IATI-Stats/
+    options:
+    - line: Options Indexes FollowSymLinks 
