@@ -1,0 +1,12 @@
+---
+- include_role:
+    name: common/apache2/apache2_install
+    
+- include_role:
+    name: dashboard/registry_refresher
+
+- include_role:
+    name: dashboard/stats
+
+- include_role:
+    name: dashboard/dashboard

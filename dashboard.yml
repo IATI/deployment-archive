@@ -1,0 +1,12 @@
+---
+- hosts: new-dashboard-dev
+  # This is needed with the default interpreter is python2 being installed on Ubuntu 16.04 or above
+  gather_facts: False
+  remote_user: root
+  roles:
+    - common/python2
+    - common/create_user
+    - dashboard
+
+  vars:
+    custom_user: dashboard

@@ -69,5 +69,4 @@
     name: "Periodic django update"
     minute: "{{ update_minute }}"
     hour: "{{ update_hour }}"
-    weekday: "{{ update_weekday }}"
     job: "/usr/local/bin/periodic_updates.sh"

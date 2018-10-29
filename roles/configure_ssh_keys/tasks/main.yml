@@ -16,7 +16,7 @@
     exclusive: False
   with_items:
     - "{{ authorized_keys_external }}"
-  when: external_dev_servers
+  when: external_dev_servers is defined
 
 - name: Remove unauthorised keys
   authorized_key:
@@ -25,3 +25,4 @@
     state: absent
   with_items:
     - "{{ unauthorised_keys }}"
+  when: unauthorised_keys.0 is defined

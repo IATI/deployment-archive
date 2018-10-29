@@ -1,0 +1,20 @@
+---
+- include_role:
+    name: common/clone_repo
+  become: true
+  become_user: "{{ custom_user }}"
+
+- include_role:
+    name: common/pip_install
+
+- include_role:
+    name: common/change_ownership
+
+- include_role:
+    name: dashboard/stats/helpers
+
+- include_role: 
+    name: common/symlink
+
+- name: Run get_stats.sh
+  script: get_stats.sh

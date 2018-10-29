@@ -2,7 +2,7 @@
 
 ## Project repository
 
-https://github.com/IATI/preview-website
+https://github.com/IATI/IATI-Standard-Website
 
 
 ## Deployment

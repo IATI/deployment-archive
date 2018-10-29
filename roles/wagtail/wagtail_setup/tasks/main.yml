@@ -19,10 +19,10 @@
 # Run migrate on the database and make sure directories necessary for static content and media exist
 - include_tasks: django_setup.yml
 
-- include_tasks: ssl_setup.yml
-
 - include_role:
     name: common/apache2/apache2_install
+
+- include_tasks: ssl_setup.yml
 
 - include_role:
     name: common/apache2/apache2_restart
