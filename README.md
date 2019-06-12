@@ -9,9 +9,6 @@ Current playbooks:
   - `datastore_dev.yml`
       This playbook deploys the dev Datastore with an updated Ubuntu OS and Apache configuration. Work is ongoing to push these improvements to production, but currently only dev and staging have these updates until we can migrate all products from the live Datastore server.
 
-  - `wagtail.yml`
-      This playbook deploys the new and improved IATI website. This project is currently in progress and so this playbook should not be considered stable.
-
 ### Set-up
 
 We recommend you use Python 3.5+ and familiarise yourself with Ansible best practices http://docs.ansible.com/ansible/latest/playbooks_best_practices.html
