@@ -1,3 +1,8 @@
+# _NOTE_
+
+# Deprecation Notice
+- This repository is deprecated and not maintained by IATI
+
 # Deployment
 
 A repository for managing deployment processes. Single-purpose successor to https://github.com/IATI/IATI-Websites
